@@ -1,0 +1,9 @@
+<form method="post" action="{% url 'reserver_destination' destination.id %}">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label class="form-label">Nombre de personnes</label>
+      <input type="number" name="nb_personnes" min="1" value="1" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-success">Réserver</button>
+  </form>
+  

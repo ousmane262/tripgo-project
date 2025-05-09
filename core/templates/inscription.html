@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Inscription - TripGo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body class="bg-light">
+
+  <div class="container my-5">
+    <div class="row align-items-center justify-content-center">
+
+      <!-- 📝 Formulaire à gauche -->
+      <div class="col-lg-5 shadow p-5 rounded-4 bg-white animate__animated animate__fadeInLeft">
+        <h2 class="text-center mb-3 fw-bold">Créer un compte ✨</h2>
+        <p class="text-center text-muted mb-4">Rejoins TripGo et explore le monde 🌍</p>
+
+        <!-- ✅ MESSAGES -->
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        <form method="post">
+          {% csrf_token %}
+
+          <!-- Nom -->
+          <div class="mb-3">
+            <label for="nom" class="form-label">Nom complet</label>
+            <input type="text" class="form-control rounded-pill" id="nom" name="nom" placeholder="Votre nom complet" required>
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="email" class="form-label">Adresse Email</label>
+            <input type="email" class="form-control rounded-pill" id="email" name="email" placeholder="email@example.com" required>
+          </div>
+
+          <!-- Mot de passe -->
+          <div class="mb-4">
+            <label for="password" class="form-label">Mot de passe</label>
+            <input type="password" class="form-control rounded-pill" id="password" name="password" placeholder="••••••••" required>
+          </div>
+
+          <!-- Bouton -->
+          <div class="d-grid">
+            <button type="submit" class="btn btn-success rounded-pill fw-bold">S'inscrire</button>
+          </div>
+
+          <!-- Lien vers Connexion -->
+          <p class="mt-3 text-center">
+            Déjà inscrit ? <a href="{% url 'connexion' %}" class="text-decoration-none fw-bold text-primary">Se connecter</a>
+          </p>
+        </form>
+      </div>
+
+      <!-- ✈️ Illustration -->
+      <div class="col-lg-6 d-none d-lg-block text-center animate__animated animate__fadeInRight">
+        <img src="https://th.bing.com/th/id/OIP.7rMAWkDSMBrNnsyOg_cciAHaFN?pid=ImgDet&w=164&h=115&c=7&dpr=1,5" alt="Voyage illustration" class="img-fluid" style="max-height: 420px;">
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

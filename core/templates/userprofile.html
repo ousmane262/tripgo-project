@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>TripGo | Profil</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background: #f8f9fa;
+    }
+    .fade-in {
+      animation: fadeInUp 0.6s ease-in-out;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+<!-- 🔷 Barre de navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4">
+  <a class="navbar-brand fw-bold text-primary" href="#">Trip<span class="text-info">Go</span></a>
+  <div class="ms-auto d-flex gap-2">
+    <a href="{% url 'mes_reservations' %}" class="btn btn-outline-secondary btn-sm">📅 Réservations</a>
+    <a href="{% url 'deconnexion' %}" class="btn btn-outline-danger btn-sm">Déconnexion</a>
+  </div>
+</nav>
+
+{% if messages %}
+  <div class="container mt-4 fade-in">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <i class="bi bi-info-circle"></i> {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+
+<div class="container py-5">
+  <!-- 🧑 Infos utilisateur -->
+  <div class="card mb-4 shadow-sm fade-in">
+    <div class="card-body">
+      <h4 class="card-title mb-3"><i class="bi bi-person-circle"></i> Bonjour {{ user.first_name }}</h4>
+      <p><i class="bi bi-envelope"></i> {{ user.email }}</p>
+      <p><i class="bi bi-calendar"></i> Membre depuis le {{ user.date_joined|date:"d M Y" }}</p>
+      <button class="btn btn-outline-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#editModal">
+        <i class="bi bi-pencil-square"></i> Modifier mes infos
+      </button>
+    </div>
+  </div>
+
+  <!-- 📅 Réservations -->
+  <div class="card mb-4 shadow-sm fade-in">
+    <div class="card-body">
+      <h5 class="card-title"><i class="bi bi-calendar-event"></i> Mes réservations</h5>
+      {% if reservations %}
+        <ul class="list-group list-group-flush">
+          {% for r in reservations %}
+            <li class="list-group-item">
+              <strong>{{ r.destination.titre }}</strong> ({{ r.destination.lieu }})<br>
+              Du {{ r.destination.date_debut }} au {{ r.destination.date_fin }}<br>
+              Statut : <span class="badge bg-secondary">{{ r.statut }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-muted">Aucune réservation pour le moment.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- 💳 Paiements -->
+  <div class="card mb-4 shadow-sm fade-in">
+    <div class="card-body">
+      <h5 class="card-title"><i class="bi bi-credit-card"></i> Mes paiements</h5>
+      {% if paiements %}
+        <ul class="list-group list-group-flush">
+          {% for p in paiements %}
+            <li class="list-group-item">
+              {{ p.reservation.destination.titre }} – {{ p.montant }} € – 
+              <span class="badge 
+                {% if p.statut == 'SUCCES' %}bg-success
+                {% elif p.statut == 'ECHEC' %}bg-danger
+                {% else %}bg-warning{% endif %}">
+                {{ p.statut }}
+              </span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-muted">Aucun paiement effectué.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ⭐ Avis -->
+  <div class="card shadow-sm fade-in">
+    <div class="card-body">
+      <h5 class="card-title"><i class="bi bi-star-fill"></i> Mes avis</h5>
+      {% if avis %}
+        <ul class="list-group list-group-flush">
+          {% for a in avis %}
+            <li class="list-group-item">
+              <strong>{{ a.reservation.destination.titre }}</strong> – {{ a.note }}/5<br>
+              <em>"{{ a.commentaire }}"</em>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-muted">Aucun avis laissé.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- 🛠️ Modale pour modifier les infos -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post" action="{% url 'userprofile' %}" class="modal-content">
+        {% csrf_token %}
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Modifier mes informations</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Nom complet</label>
+          <input type="text" name="nom" value="{{ user.first_name }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" name="email" value="{{ user.email }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Nouveau mot de passe (optionnel)</label>
+          <input type="password" name="password" class="form-control">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success"><i class="bi bi-check-circle"></i> Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

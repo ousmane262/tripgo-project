@@ -1,0 +1,77 @@
+[
+  {
+    "model": "core.destination",
+    "pk": 1,
+    "fields": {
+      "titre": "Paris Fashion Week",
+      "lieu": "Paris, France",
+      "description": "Événement international de mode à Paris.",
+      "image": "",
+      "prix_par_personne": "1200.00",
+      "duree": 7,
+      "date_debut": "2025-08-10",
+      "date_fin": "2025-08-17",
+      "active": true
+    }
+  },
+  {
+    "model": "core.destination",
+    "pk": 2,
+    "fields": {
+      "titre": "Tokyo Game Show",
+      "lieu": "Tokyo, Japon",
+      "description": "Salon de jeux vidéo parmi les plus grands au monde.",
+      "image": "",
+      "prix_par_personne": "1400.00",
+      "duree": 8,
+      "date_debut": "2025-09-05",
+      "date_fin": "2025-09-13",
+      "active": true
+    }
+  },
+  {
+    "model": "core.destination",
+    "pk": 3,
+    "fields": {
+      "titre": "Carnaval de Rio",
+      "lieu": "Rio de Janeiro, Brésil",
+      "description": "Fête traditionnelle avec défilés de samba et costumes.",
+      "image": "",
+      "prix_par_personne": "1000.00",
+      "duree": 6,
+      "date_debut": "2025-02-22",
+      "date_fin": "2025-02-28",
+      "active": true
+    }
+  },
+  {
+    "model": "core.destination",
+    "pk": 4,
+    "fields": {
+      "titre": "Montreal Jazz Festival",
+      "lieu": "Montréal, Canada",
+      "description": "Plus grand festival de jazz au monde.",
+      "image": "",
+      "prix_par_personne": "800.00",
+      "duree": 5,
+      "date_debut": "2025-06-28",
+      "date_fin": "2025-07-03",
+      "active": true
+    }
+  },
+  {
+    "model": "core.destination",
+    "pk": 5,
+    "fields": {
+      "titre": "Fête des Lumières",
+      "lieu": "Lyon, France",
+      "description": "Spectacle visuel unique en décembre dans la ville de Lyon.",
+      "image": "",
+      "prix_par_personne": "750.00",
+      "duree": 4,
+      "date_debut": "2025-12-06",
+      "date_fin": "2025-12-10",
+      "active": true
+    }
+  }
+]
